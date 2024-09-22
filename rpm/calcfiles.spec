@@ -14,7 +14,8 @@ BuildArch:      noarch
 calc_files.sh is a simple script that calculates the number of files in a directory.
 
 %prep
-unzip -o %{SOURCE0} -d System-Programming-main/
+unzip -o %{SOURCE0} -d System-Programming-main
+mv System-Programming-main/\r System-Programming-main || true
 cd System-Programming-main/
 
 %install
