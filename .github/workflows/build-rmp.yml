@@ -32,18 +32,13 @@ jobs:
 
       - name: Build RPM
         run: |
-            cp rpm/calcfiles.spec ~/rpmbuild/SPECS/
-            cd ~/rpmbuild/SOURCES/
-            wget https://github.com/Maxrule/System-Programming/archive/main.zip
-            unzip -o main.zip -d temp_dir
-            # Convert all files in the extracted directory to Unix format
-            find temp_dir/System-Programming-main -type f -exec dos2unix {} +
-            mv temp_dir/System-Programming-main/* ./
-            rm -rf temp_dir
-            cd ../../
-            rpmbuild -bs --define "dist .generic" rpmbuild/SPECS/calcfiles.spec
-            rpmbuild --rebuild rpmbuild/SRPMS/calcfiles-1.0-1.generic.src.rpm
-        
+          cp rpm/calcfiles.spec ~/rpmbuild/SPECS/
+          cd ~/rpmbuild/SOURCES/
+          wget https://github.com/Maxrule/System-Programming/archive/main.zip
+          cd ../../
+          rpmbuild -bs --define "dist .generic" rpmbuild/SPECS/calcfiles.spec
+          rpmbuild --rebuild rpmbuild/SRPMS/calcfiles-1.0-1.generic.src.rpm
+
       - name: Upload RPM
         uses: actions/upload-artifact@v3
         with:
