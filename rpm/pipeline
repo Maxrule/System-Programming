@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Build RPM Package') {
+            steps {
+                script {
+                    sh 'rpmdev-setuptree'
+                    sh 'wget https://github.com/Maxrule/System-Programming/archive/main.zip'
+                    sh 'unzip main.zip'
+                    sh 'mv System-Programming-main/rpm/calcfiles.spec ~/rpmbuild/SPECS/'
+                    sh 'mv System-Programming-main/calc_files.sh ~/rpmbuild/SPECS/'
+                    sh 'mv main.zip ~/rpmbuild/SOURCES/'
+                    sh 'rpmbuild -bs --define "dist .generic" ~/rpmbuild/SPECS/calcfiles.spec'
+                    sh 'rpmbuild --rebuild ~/rpmbuild/SRPMS/calcfiles-1.0-1.generic.src.rpm'
+                }
+            }
+        }
+
+        stage('Install RPM Package') {
+            steps {
+                script {
+                    sh 'rpm -ivh ~/rpmbuild/RPMS/noarch/calcfiles-1.0-1.el7.noarch.rpm'
+                    sh 'calc_files --check_dir=System-Programming-main'
+                    sh 'rm -r System-Programming-main'
+                }
+            }
+        }
+    }
+}
