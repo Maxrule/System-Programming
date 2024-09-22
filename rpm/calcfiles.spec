@@ -18,7 +18,7 @@ unzip -o %{SOURCE0} -d temp_dir
 echo "Contents of temp_dir after unzip:"
 ls -l temp_dir
 # Удаляем символы возврата каретки из всех файлов в директории
-find temp_dir -type f sed -i 's/\r$//g' {} \;
+find temp_dir -type f -exec sed -i 's/\r$//g' {} \;
 cd temp_dir/System-Programming-main/ || { echo "Directory not found"; exit 1; }
 
 %install
