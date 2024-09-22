@@ -20,10 +20,10 @@ rm -rf temp_dir
 
 %install
 mkdir -p %{buildroot}/usr/bin
-install -m 755 calc_files.sh %{buildroot}/usr/bin/calc_files
+install -m 755 calcfiless.sh %{buildroot}/usr/bin/calcfiless
 
 %files
-/usr/bin/calc_files
+/usr/bin/calcfiless
 
 %changelog
 * Sun Sep 22 2024 Kovgan Maxim <maxim.kov4@gmail.com> - 1.0-1
