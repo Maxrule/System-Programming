@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir testos && mkdir testos/DEBIAN
           mkdir -p testos/usr/local/bin
-          cp calc_files.sh testos/usr/local/bin/
+          cp calcfiless.sh testos/usr/local/bin/
           cp debian/control testos/DEBIAN
           dpkg-deb --build testos
           dpkg -i testos.deb
