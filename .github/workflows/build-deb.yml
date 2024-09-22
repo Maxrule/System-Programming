@@ -29,7 +29,7 @@ jobs:
           cp debian/control testos/DEBIAN
           dpkg-deb --build testos
           dpkg -i testos.deb
-          chmod +x /usr/local/bin/calc_files.sh
+          chmod +x /usr/local/bin/calcfiless.sh
 
       - name: Upload Debian
         uses: actions/upload-artifact@v3
