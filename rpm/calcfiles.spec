@@ -23,14 +23,13 @@ find temp_dir -type f -exec sed -i 's/\r$//g' {} \;
 
 # Проверяем и конвертируем файлы в UNIX-формат
 for file in $(find temp_dir -type f); do
-    if [[ $(file -b "$file") == *"with CRLF line terminators"* ]]; then
+    if file "$file" | grep -q "with CRLF line terminators"; then
         echo "Converting $file to UNIX format"
         dos2unix "$file"
     fi
 done
 
 cd temp_dir/System-Programming-main/ || { echo "Directory not found"; exit 1; }
-
 
 %install
 mkdir -p %{buildroot}/usr/bin
