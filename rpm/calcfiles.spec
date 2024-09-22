@@ -11,7 +11,7 @@ Source0:        https://github.com/Maxrule/System-Programming/archive/main.zip
 BuildArch:      noarch
 
 %description
-calc_files.sh is a simple script that calculates the number of files in a directory.
+calcfiless.sh is a simple script that calculates the number of files in a directory.
 
 %prep
 unzip -o %{SOURCE0} -d temp_dir
