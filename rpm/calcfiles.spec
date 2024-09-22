@@ -14,8 +14,8 @@ BuildArch:      noarch
 calcfiless.sh is a simple script that calculates the number of files in a directory.
 
 %prep
-unzip %SOURCE0
-cd System-Programming-main/
+unzip -o %{SOURCE0} -d temp_dir
+cd temp_dir/System-Programming-main/
 
 %install
 mkdir -p %{buildroot}/usr/bin
