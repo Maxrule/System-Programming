@@ -25,5 +25,5 @@ install -m 755 %{_builddir}/System-Programming-main/calc_files.sh %{buildroot}/u
 /usr/bin/calc_files
 
 %changelog
-* Thu Sep 22 2024 Kovgan Maxim <maxim.kov4@gmail.com> - 1.0-1
+* Thu Sep 22 2023 Kovgan Maxim <maxim.kov4@gmail.com> - 1.0-1
 - Initial build
