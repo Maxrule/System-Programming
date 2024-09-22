@@ -15,7 +15,7 @@ calc_files.sh is a simple script that calculates the number of files in a direct
 
 %prep
 unzip -o %{SOURCE0} -d temp_dir
-mv temp_dir/System-Programming-main/* ./
+find temp_dir/System-Programming-main -type f -exec mv {} ./ \;
 rm -rf temp_dir
 
 %install
