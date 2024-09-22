@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     sh 'rpm -ivh ~/rpmbuild/RPMS/noarch/calcfiles-1.0-1.el7.noarch.rpm'
-                    sh 'calcfiless --check_dir=System-Programming-main'
+                    sh 'calcfiles --check_dir=System-Programming-main'
                     sh 'rm -r System-Programming-main'
                 }
             }
