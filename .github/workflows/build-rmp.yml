@@ -14,11 +14,16 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: centos:8  
+      image: centos:8
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
+
+      - name: Configure YUM to use vault.centos.org
+        run: |
+          sed -i 's|mirrorlist=http://mirrorlist.centos.org|#mirrorlist=http://mirrorlist.centos.org|g' /etc/yum.repos.d/CentOS-*.repo
+          sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*.repo
 
       - name: Install RPM build tools
         run: |
@@ -33,9 +38,9 @@ jobs:
           cd ../../
           rpmbuild -bs --define "dist .generic" rpmbuild/SPECS/calcfiles.spec
           rpmbuild --rebuild rpmbuild/SRPMS/calcfiles-1.0-1.generic.src.rpm
-          
+
       - name: Upload RPM
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: rpm-package
           path: |
