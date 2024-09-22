@@ -32,7 +32,7 @@ jobs:
           chmod +x /usr/local/bin/calc_files.sh
 
       - name: Upload Debian
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: deb-package
           path: |
