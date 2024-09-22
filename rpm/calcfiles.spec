@@ -15,7 +15,9 @@ calcfiless.sh is a simple script that calculates the number of files in a direct
 
 %prep
 unzip -o %{SOURCE0} -d temp_dir
-cd temp_dir/System-Programming-main/ || exit 1  # добавлено для обработки ошибок
+echo "Contents of temp_dir after unzip:"
+ls -l temp_dir
+cd temp_dir/System-Programming-main/ || { echo "Directory not found"; exit 1; }
 
 %install
 mkdir -p %{buildroot}/usr/bin
