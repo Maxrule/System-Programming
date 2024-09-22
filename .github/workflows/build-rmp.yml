@@ -35,10 +35,6 @@ jobs:
           cp rpm/calcfiles.spec ~/rpmbuild/SPECS/
           cd ~/rpmbuild/SOURCES/
           wget https://github.com/Maxrule/System-Programming/archive/main.zip
-          unzip -o main.zip  # Распакуйте ZIP здесь
-          sed -i 's/\r$//g' System-Programming-main/calcfiless.sh  # Удаляем ^M из скрипта
-          mv System-Programming-main/* ./  # Перемещаем файлы
-          rm -rf System-Programming-main  # Удаляем директорию
           cd ../../
           rpmbuild -bs --define "dist .generic" rpmbuild/SPECS/calcfiles.spec
           rpmbuild --rebuild rpmbuild/SRPMS/calcfiles-1.0-1.generic.src.rpm
@@ -48,5 +44,5 @@ jobs:
         with:
           name: rpm-package
           path: |
-            ~/rpmbuild/RPMS/noarch/*.rpm
-            ~/rpmbuild/SRPMS/*.src.rpm
+            ~/rpmbuild/RPMS//*.rpm
+            ~/rpmbuild/SRPMS//*.src.rpm
