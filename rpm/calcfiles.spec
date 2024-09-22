@@ -14,20 +14,12 @@ BuildArch:      noarch
 calcfiless.sh is a simple script that calculates the number of files in a directory.
 
 %prep
-unzip -o -O UTF-8 %{SOURCE0} -d temp_dir
-echo "Renaming files to remove carriage return characters"
-for file in temp_dir/System-Programming-main/*; do
-    mv "$file" "$(echo $file | tr -d '\r')"
-done
-ls -l temp_dir/System-Programming-main/  # Проверьте
-sed -i 's/\r$//g' temp_dir/System-Programming-main/calcfiless.sh  # Уберите ^M
-mv temp_dir/System-Programming-main/calcfiless.sh ./
-rm -rf temp_dir
-
+unzip %SOURCE0
+cd System-Programming-main/
 
 %install
 mkdir -p %{buildroot}/usr/bin
-install -m 755 calcfiless.sh %{buildroot}/usr/bin/calcfiless
+install -m 755 %{_builddir}/System-Programming-main/calcfiless.sh %{buildroot}/usr/bin/calcfiless
 
 %files
 /usr/bin/calcfiless
