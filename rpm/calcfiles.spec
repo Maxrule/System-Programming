@@ -15,15 +15,11 @@ calcfiless.sh is a simple script that calculates the number of files in a direct
 
 %prep
 unzip -o -O UTF-8 %{SOURCE0} -d temp_dir
-echo "Contents of temp_dir/System-Programming-main:"
-ls -l temp_dir/System-Programming-main/
-if [ -d temp_dir/System-Programming-main ]; then
-    echo "Directory exists."
-else
-    echo "Directory does not exist."
-fi
-sed -i 's/\r$//g' temp_dir/System-Programming-main/calcfiless.sh  # Уберите ^M
-mv temp_dir/System-Programming-main/calcfiless.sh ./
+mv temp_dir/System-Programming-main temp_dir/SystemProgrammingMain  # Переименуйте директорию
+echo "Contents of temp_dir/SystemProgrammingMain:"
+ls -l temp_dir/SystemProgrammingMain/  # Теперь проверьте
+sed -i 's/\r$//g' temp_dir/SystemProgrammingMain/calcfiless.sh  # Уберите ^M
+mv temp_dir/SystemProgrammingMain/calcfiless.sh ./
 rm -rf temp_dir
 
 %install
