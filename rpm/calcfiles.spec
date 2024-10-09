@@ -27,5 +27,5 @@ install -m 755 %{_builddir}/System-Programming-main/calcfiless.sh %{buildroot}/u
 /usr/bin/calcfiless
 
 %changelog
-* Sun Sep 22 2024 Kovgan Maxim <maxim.kov4@gmail.com> - 1.0-1
+* Wed Oct 09 2024 Kovgan Maxim <maxim.kov4@gmail.com> - 1.0-1
 - Initial build
