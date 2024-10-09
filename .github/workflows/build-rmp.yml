@@ -28,24 +28,21 @@ jobs:
 
       - name: Install RPM build tools
         run: |
-          echo "Installing RPM build tools"
           yum install -y rpm-build rpmdevtools wget unzip
           rpmdev-setuptree
 
+      - name: Copy spec file and fix line endings
+        run: |
+          cp rpm/calcfiles.spec ~/rpmbuild/SPECS/
+          # Удаление символов возврата каретки (CRLF)
+          sed -i 's/\r//g' ~/rpmbuild/SPECS/calcfiles.spec
+
       - name: Build RPM
         run: |
-          echo "Copying spec file to SPECS directory"
-          cp rpm/calcfiles.spec ~/rpmbuild/SPECS/
-          
-          echo "Downloading source archive"
           cd ~/rpmbuild/SOURCES/
-          wget https://github.com/Maxrule/System-Programming/archive/main.zip
-          
-          echo "Building source RPM"
+          wget -O main.zip https://github.com/Maxrule/System-Programming/archive/main.zip
           cd ../../
           rpmbuild -bs --define "dist .generic" rpmbuild/SPECS/calcfiles.spec
-          
-          echo "Rebuilding binary RPM from source RPM"
           rpmbuild --rebuild rpmbuild/SRPMS/calcfiles-1.0-1.generic.src.rpm
 
       - name: Upload RPM
