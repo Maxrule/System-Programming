@@ -22,21 +22,30 @@ jobs:
 
       - name: Configure YUM to use vault.centos.org
         run: |
+          echo "Configuring YUM to use vault.centos.org"
           sed -i 's|mirrorlist=http://mirrorlist.centos.org|#mirrorlist=http://mirrorlist.centos.org|g' /etc/yum.repos.d/CentOS-*.repo
           sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*.repo
 
       - name: Install RPM build tools
         run: |
+          echo "Installing RPM build tools"
           yum install -y rpm-build rpmdevtools wget unzip
           rpmdev-setuptree
 
       - name: Build RPM
         run: |
+          echo "Copying spec file to SPECS directory"
           cp rpm/calcfiles.spec ~/rpmbuild/SPECS/
+          
+          echo "Downloading source archive"
           cd ~/rpmbuild/SOURCES/
           wget https://github.com/Maxrule/System-Programming/archive/main.zip
+          
+          echo "Building source RPM"
           cd ../../
           rpmbuild -bs --define "dist .generic" rpmbuild/SPECS/calcfiles.spec
+          
+          echo "Rebuilding binary RPM from source RPM"
           rpmbuild --rebuild rpmbuild/SRPMS/calcfiles-1.0-1.generic.src.rpm
 
       - name: Upload RPM
@@ -44,5 +53,5 @@ jobs:
         with:
           name: rpm-package
           path: |
-            ~/rpmbuild/RPMS//*.rpm
-            ~/rpmbuild/SRPMS//*.src.rpm
+            ~/rpmbuild/RPMS/**/*.rpm
+            ~/rpmbuild/SRPMS/**/*.src.rpm
