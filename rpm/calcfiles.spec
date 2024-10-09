@@ -14,14 +14,19 @@ BuildArch:      noarch
 calcfiless.sh is a simple script that calculates the number of files in a directory.
 
 %prep
-unzip %SOURCE0
+# Распаковка исходного архива
+unzip -q %{SOURCE0}
 cd System-Programming-main/
 
-cd temp_dir/System-Programming-main/ || { echo "Directory not found"; exit 1; }
+# Удаление символов возврата каретки (CRLF) из файлов
+find . -type f -exec sed -i 's/\r$//g' {} \;
 
 %install
+# Создание директории для бинарного файла
 mkdir -p %{buildroot}/usr/bin
-install -m 755 %{_builddir}/System-Programming-main/calcfiless.sh %{buildroot}/usr/bin/calcfiless
+
+# Установка скрипта в системный каталог
+install -m 755 calcfiless.sh %{buildroot}/usr/bin/calcfiless
 
 %files
 /usr/bin/calcfiless
