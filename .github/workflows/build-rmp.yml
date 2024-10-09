@@ -25,12 +25,8 @@ jobs:
           wget -O main.zip https://github.com/Maxrule/System-Programming/archive/main.zip
           # Удаление символов возврата каретки из пути
           sed -i 's/\r//g' main.zip
-
-      - name: Copy spec file and fix line endings
-        run: |
-          cp rpm/calcfiles.spec ~/rpmbuild/SPECS/
-          # Удаление символов возврата каретки (CRLF)
-          sed -i 's/\r//g' ~/rpmbuild/SPECS/calcfiles.spec
+          # Перемещение архива в нужную директорию
+          mv main.zip ~/rpmbuild/SOURCES/
 
       - name: Build RPM
         run: |
@@ -39,6 +35,7 @@ jobs:
           cd ../../
           rpmbuild -bs --define "dist .generic" rpmbuild/SPECS/calcfiles.spec
           rpmbuild --rebuild rpmbuild/SRPMS/calcfiles-1.0-1.generic.src.rpm
+
 
       - name: Upload RPM
         uses: actions/upload-artifact@v3
