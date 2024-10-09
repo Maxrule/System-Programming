@@ -18,7 +18,7 @@ calcfiless.sh is a simple script that calculates the number of files in a direct
 unzip -q %{SOURCE0}
 cd System-Programming-main/
 
-# Удаление символов возврата каретки (CRLF) из файлов
+# Удаление символов возврата каретки (CRLF) из всех файлов в проекте
 find . -type f -exec sed -i 's/\r$//g' {} \;
 
 %install
