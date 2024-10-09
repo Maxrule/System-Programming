@@ -1,49 +1,52 @@
-jobs:
-  build:
-    runs-on: ubuntu-latest
+name: Build RMP Package
 
-    container:
-      image: centos:8
+on:
+  jobs:
+    build:
+      runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      container:
+        image: centos:8
 
-      - name: Configure YUM to use vault.centos.org
-        run: |
-          echo "Configuring YUM to use vault.centos.org"
-          sed -i 's|mirrorlist=http://mirrorlist.centos.org|#mirrorlist=http://mirrorlist.centos.org|g' /etc/yum.repos.d/CentOS-*.repo
-          sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*.repo
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
 
-      - name: Install RPM build tools
-        run: |
-          yum install -y rpm-build rpmdevtools wget unzip
-          rpmdev-setuptree
+        - name: Configure YUM to use vault.centos.org
+          run: |
+            echo "Configuring YUM to use vault.centos.org"
+            sed -i 's|mirrorlist=http://mirrorlist.centos.org|#mirrorlist=http://mirrorlist.centos.org|g' /etc/yum.repos.d/CentOS-*.repo
+            sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*.repo
 
-      - name: Download and fix archive path
-        run: |
-          wget -O main.zip https://github.com/Maxrule/System-Programming/archive/main.zip
-          # Удаление символов возврата каретки из пути
-          sed -i 's/\r//g' main.zip
+        - name: Install RPM build tools
+          run: |
+            yum install -y rpm-build rpmdevtools wget unzip
+            rpmdev-setuptree
 
-      - name: Copy spec file and fix line endings
-        run: |
-          cp rpm/calcfiles.spec ~/rpmbuild/SPECS/
-          # Удаление символов возврата каретки (CRLF)
-          sed -i 's/\r//g' ~/rpmbuild/SPECS/calcfiles.spec
+        - name: Download and fix archive path
+          run: |
+            wget -O main.zip https://github.com/Maxrule/System-Programming/archive/main.zip
+            # Удаление символов возврата каретки из пути
+            sed -i 's/\r//g' main.zip
 
-      - name: Build RPM
-        run: |
-          cd ~/rpmbuild/SOURCES/
-          unzip -q main.zip
-          cd ../../
-          rpmbuild -bs --define "dist .generic" rpmbuild/SPECS/calcfiles.spec
-          rpmbuild --rebuild rpmbuild/SRPMS/calcfiles-1.0-1.generic.src.rpm
+        - name: Copy spec file and fix line endings
+          run: |
+            cp rpm/calcfiles.spec ~/rpmbuild/SPECS/
+            # Удаление символов возврата каретки (CRLF)
+            sed -i 's/\r//g' ~/rpmbuild/SPECS/calcfiles.spec
 
-      - name: Upload RPM
-        uses: actions/upload-artifact@v3
-        with:
-          name: rpm-package
-          path: |
-            ~/rpmbuild/RPMS/**/*.rpm
-            ~/rpmbuild/SRPMS/**/*.src.rpm
+        - name: Build RPM
+          run: |
+            cd ~/rpmbuild/SOURCES/
+            unzip -q main.zip
+            cd ../../
+            rpmbuild -bs --define "dist .generic" rpmbuild/SPECS/calcfiles.spec
+            rpmbuild --rebuild rpmbuild/SRPMS/calcfiles-1.0-1.generic.src.rpm
+
+        - name: Upload RPM
+          uses: actions/upload-artifact@v3
+          with:
+            name: rpm-package
+            path: |
+              ~/rpmbuild/RPMS/**/*.rpm
+              ~/rpmbuild/SRPMS/**/*.src.rpm
